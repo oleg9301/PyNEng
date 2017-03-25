@@ -37,4 +37,4 @@ def return_math(file_name, regex):
     return '\n'.join(result)
 
 
-print(return_math('sh_ip_int_br.txt', '(\d+.\d+.\d+.\d+)'))
+print(return_math('sh_ip_int_br.txt', '(\d+\.\d+\.\d+\.\d+)'))
