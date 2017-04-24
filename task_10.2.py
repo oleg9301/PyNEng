@@ -24,6 +24,11 @@ trunk_dict = { 'FastEthernet0/1': [10,20,30],
                'FastEthernet0/2': [11,30],
                'FastEthernet0/4': [17]}
 access_list = []
+trunk_list = []
+ospf_list = []
+mngmt_list = []
+alias_list = []
+sw_config = []
 
 
 def generate_access_config(access, psecurity=False):
@@ -43,7 +48,6 @@ def generate_access_config(access, psecurity=False):
 
 
 def generate_trunk_config(trunk):
-    trunk_list = []
     for interface, vlan in trunk.items():
         trunk_list.append('interface ' + interface)
         with open('sw_templates.yaml', 'r') as f:
@@ -56,7 +60,6 @@ def generate_trunk_config(trunk):
 
 
 def generate_ospf_config(filename):
-    ospf_list = []
     with open(filename, 'r') as f:
         for string in (yaml.load(f)['ospf']):
             ospf_list.append(string)
@@ -64,7 +67,6 @@ def generate_ospf_config(filename):
 
 
 def generate_mngmt_config(filename):
-    mngmt_list = []
     with open(filename, 'r') as f:
         for string in (yaml.load(f)['mngmt']):
             mngmt_list.append(string)
@@ -72,7 +74,6 @@ def generate_mngmt_config(filename):
 
 
 def generate_alias_config(filename):
-    alias_list = []
     with open(filename, 'r') as f:
         for string in (yaml.load(f)['alias']):
             alias_list.append(string)
@@ -81,7 +82,6 @@ def generate_alias_config(filename):
 
 def generate_switch_config(access=True, psecurity=False, trunk=True,
                            ospf=True, mngmt=True, alias=False):
-    sw_config = []
     if access and psecurity:
         sw_config.extend(generate_access_config(access_dict,  psecurity=True))
     if access_list:
