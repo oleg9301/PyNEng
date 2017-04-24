@@ -23,68 +23,68 @@ access_dict = {'FastEthernet0/12': 10,
 trunk_dict = { 'FastEthernet0/1': [10,20,30],
                'FastEthernet0/2': [11,30],
                'FastEthernet0/4': [17]}
-access_list = []
-trunk_list = []
-ospf_list = []
-mngmt_list = []
-alias_list = []
+access_config = []
+trunk_config = []
+ospf_config = []
+mngmt_config = []
+alias_config = []
 sw_config = []
 
 
 def generate_access_config(access, psecurity=False):
     for interface, vlan in access.items():
-        access_list.append('interface ' + interface)
+        access_config.append('interface ' + interface)
         with open('sw_templates.yaml', 'r') as f:
             for string in yaml.load(f)['access']:
                 if 'access vlan' in string:
-                    access_list.append(string + ' ' + str(vlan))
+                    access_config.append(string + ' ' + str(vlan))
                 else:
-                    access_list.append(string)
+                    access_config.append(string)
         with open('sw_templates.yaml', 'r') as f:
             if psecurity:
                 for string in yaml.load(f)['psecurity']:
-                    access_list.append(string)
-    return access_list
+                    access_config.append(string)
+    return access_config
 
 
 def generate_trunk_config(trunk):
     for interface, vlan in trunk.items():
-        trunk_list.append('interface ' + interface)
+        trunk_config.append('interface ' + interface)
         with open('sw_templates.yaml', 'r') as f:
             for string in yaml.load(f)['trunk']:
                 if 'allowed vlan' in string:
-                    trunk_list.append(string + ' ' + ','.join(str(num) for num in vlan))
+                    trunk_config.append(string + ' ' + ','.join(str(num) for num in vlan))
                 else:
-                    trunk_list.append(string)
-    return trunk_list
+                    trunk_config.append(string)
+    return trunk_config
 
 
 def generate_ospf_config(filename):
     with open(filename, 'r') as f:
         for string in (yaml.load(f)['ospf']):
-            ospf_list.append(string)
-    return ospf_list
+            ospf_config.append(string)
+    return ospf_config
 
 
 def generate_mngmt_config(filename):
     with open(filename, 'r') as f:
         for string in (yaml.load(f)['mngmt']):
-            mngmt_list.append(string)
-    return mngmt_list
+            mngmt_config.append(string)
+    return mngmt_config
 
 
 def generate_alias_config(filename):
     with open(filename, 'r') as f:
         for string in (yaml.load(f)['alias']):
-            alias_list.append(string)
-    return alias_list
+            alias_config.append(string)
+    return alias_config
 
 
 def generate_switch_config(access=True, psecurity=False, trunk=True,
                            ospf=True, mngmt=True, alias=False):
     if access and psecurity:
         sw_config.extend(generate_access_config(access_dict,  psecurity=True))
-    if access_list:
+    if access:
         sw_config.extend(generate_access_config(access_dict))
     if trunk:
         sw_config.extend(generate_trunk_config(trunk_dict))
