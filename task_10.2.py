@@ -97,8 +97,4 @@ def generate_switch_config(access=True, psecurity=False, trunk=True,
 sw1 = generate_switch_config()
 sw2 = generate_switch_config(psecurity=True, alias=True)
 sw3 = generate_switch_config(ospf=False)
-print(sw1)
-print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-print(sw2)
-print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-print(sw3)
+
