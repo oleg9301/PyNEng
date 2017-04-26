@@ -28,19 +28,20 @@ R6           Fa 0/2          143           R S I           2811       Fa 0/0
 
 
 
-def parse_sh_cdp_neighbors(file_str):
+
+def parse_sh_cdp_neighbors(cdp_file):
     i = False
     local_interfaces, result = {}, {}
-    for j in file_str:
-        if 'neighbors' in j.split():
+    for cdp_string in cdp_file:
+        if 'neighbors' in cdp_string.split():
             i = False
-            localhost_name = j.split()[0][:-5]
-        elif 'Device' in j.split():
+            localhost_name = cdp_string.split()[0][:-5]
+        elif 'Device' in cdp_string.split():
             i = True
         elif i:
             remote_host, local_interface = {}, {}
-            remote_host[j.split()[0]] = j.split()[-2] + j.split()[-1]
-            local_interface[(j.split()[1] + j.split()[2])] = remote_host
+            remote_host[cdp_string.split()[0]] = cdp_string.split()[-2] + cdp_string.split()[-1]
+            local_interface[(cdp_string.split()[1] + cdp_string.split()[2])] = remote_host
             local_interfaces.update(local_interface)
     result[localhost_name] = local_interfaces
     return result
@@ -48,4 +49,3 @@ def parse_sh_cdp_neighbors(file_str):
 
 with open('sh_cdp_n_sw1.txt', 'r') as f:
     print(parse_sh_cdp_neighbors(f.read().strip().split('\n')))
-
