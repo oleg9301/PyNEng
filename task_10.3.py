@@ -27,8 +27,6 @@ R6           Fa 0/2          143           R S I           2811       Fa 0/0
 '''
 
 
-
-
 def parse_sh_cdp_neighbors(cdp_file):
     i = False
     local_interfaces, result = {}, {}
@@ -47,5 +45,6 @@ def parse_sh_cdp_neighbors(cdp_file):
     return result
 
 
-with open('sh_cdp_n_sw1.txt', 'r') as f:
-    print(parse_sh_cdp_neighbors(f.read().strip().split('\n')))
+if __name__ == '__main__':
+    with open('sh_cdp_n_sw1.txt', 'r') as f:
+        print(parse_sh_cdp_neighbors(f.read().strip().split('\n')))
