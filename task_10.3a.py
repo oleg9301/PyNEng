@@ -34,6 +34,5 @@ all_cdp_dict = {}
 for file in sh_cdp_files:
     with open(file, 'r') as f:
         all_cdp_dict.update(parse_sh_cdp_neighbors(f.read().strip().split('\n')))
-print(all_cdp_dict)
 with open('topology.yaml', 'w') as f:
     f.write(yaml.dump(all_cdp_dict))
