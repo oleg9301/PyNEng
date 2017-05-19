@@ -42,14 +42,14 @@ result = dict()
 
 
 def send_show_command(device_list, show_command):
-    for device in device_list['routers']:
+    for device in device_list:
         ssh = netmiko.ConnectHandler(username=username, password=password, **device)
         result[device['ip']] = ssh.send_command(show_command)
     return result
 
 
 def send_config_commands(device_list, config_commands, output=True):
-    for device in device_list['routers']:
+    for device in device_list:
         ssh = netmiko.ConnectHandler(username=username, password=password, **device)
         result[device['ip']] = ssh.send_config_set(config_commands)
         if output:
@@ -58,14 +58,14 @@ def send_config_commands(device_list, config_commands, output=True):
 
 
 def send_commands_from_file(device_list, filename):
-    for device in device_list['routers']:
+    for device in device_list:
         ssh = netmiko.ConnectHandler(username=username, password=password, **device)
         result[device['ip']] = ssh.send_config_from_file(filename)
     return result
 
 
 def send_commands(device_list='devices.yaml', config=[], show='', filename=''):
-    device_list = yaml.load(open(device_list))
+    device_list = yaml.load(open(device_list))['routers']
     if config:
         return send_config_commands(device_list, commands, output=False)
     if show:
