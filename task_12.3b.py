@@ -27,10 +27,10 @@ commands = ['logging buffered 64000 debugging',
 command = "sh ip int br"
 username = input('Username: ')
 password = getpass.getpass()
-result = dict()
 
 
 def send_show_command(device_list, show_command):
+    result = dict()
     for device in device_list:
         ssh = netmiko.ConnectHandler(username=username, password=password, **device)
         result[device['ip']] = ssh.send_command(show_command)
@@ -38,6 +38,7 @@ def send_show_command(device_list, show_command):
 
 
 def send_config_commands(device_list, config_commands, output=True):
+    result = dict()
     for device in device_list:
         ssh = netmiko.ConnectHandler(username=username, password=password, **device)
         result[device['ip']] = ssh.send_config_set(config_commands)
@@ -47,6 +48,7 @@ def send_config_commands(device_list, config_commands, output=True):
 
 
 def send_commands_from_file(device_list, filename):
+    result = dict()
     for device in device_list:
         ssh = netmiko.ConnectHandler(username=username, password=password, **device)
         result[device['ip']] = ssh.send_config_from_file(filename)
