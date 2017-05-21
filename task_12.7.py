@@ -68,6 +68,7 @@ def conn_processes(function, devices, config=[], show='', filename='', limit=2):
         p = multiprocessing.Process(target=function, args=(device, queue, config, show, filename))
         p.start()
         processes.append(p)
+        count += 1
         if count < limit:
             continue
         else:
