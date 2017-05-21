@@ -69,14 +69,13 @@ def conn_threads(function, devices, config=[], show='', filename='', limit=2):
         th = threading.Thread(target=function, args=(device, q, config, show, filename))
         th.start()
         threads.append(th)
+        count += 1
         if count < limit:
             continue
         else:
             for th in threads:
                 th.join()
             count = 0
-    for th in threads:
-        th.join()
 
     results = dict()
     for t in threads:
