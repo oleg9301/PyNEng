@@ -76,9 +76,6 @@ def conn_processes(function, devices, config=[], show='', filename='', limit=2):
                 p.join()
             count = 0
 
-    for p in processes:
-        p.join()
-
     results = dict()
     for p in processes:
         results.update(queue.get())
