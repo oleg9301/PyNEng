@@ -25,11 +25,11 @@ output_file = sys.argv[2]
 
 
 def parse_output(template, output):
-    f = open(template)
-    output = open(output_file).read()
-    re_table = textfsm.TextFSM(f)
-    header = re_table.header
-    result = re_table.ParseText(output)
+    with open(template) as template, open(output_file) as output:
+        re_table = textfsm.TextFSM(template)
+        header = re_table.header
+        result = re_table.ParseText(output.read())
     return [header] + result
 
 print(parse_output(template, output_file))
+
