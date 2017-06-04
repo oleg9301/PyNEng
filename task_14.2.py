@@ -27,18 +27,15 @@ output_file = sys.argv[2]
 
 
 def parse_output(template, output):
-    f = open(template)
-    output = open(output_file).read()
-    re_table = textfsm.TextFSM(f)
-    header = re_table.header
-    result = re_table.ParseText(output)
+    with open(template) as template, open(output_file) as output:
+        re_table = textfsm.TextFSM(template)
+        header = re_table.header
+        result = re_table.ParseText(output.read())
     return [header] + result
 
 
 def list_to_csv(list, file):
     with open(file, 'w') as f:
-        writer = csv.writer(f)
-        for row in list:
-            writer.writerow(row)
+        map(csv.writer(f).writerow, list)
 
 list_to_csv((parse_output(template, output_file)), 'text.csv')
