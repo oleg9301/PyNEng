@@ -18,14 +18,14 @@ output_file = sys.argv[2]
 
 
 def parse_output(template, output):
-    res_list = []
-    f = open(template)
-    output = open(output_file).read()
-    re_table = textfsm.TextFSM(f)
-    header = re_table.header
-    result = re_table.ParseText(output)
-    for string in result:
-        res_list.append(dict(zip(header, string)))
-    return res_list
+    output_list = []
+    with open(template) as template, open(output_file) as output:
+        re_table = textfsm.TextFSM(template)
+        header = re_table.header
+        result = re_table.ParseText(output.read())
+        for string in result:
+            output_list.append(dict(zip(header, string)))
+    return output_list
 
 print(parse_output(template, output_file))
+
