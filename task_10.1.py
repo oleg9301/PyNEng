@@ -60,20 +60,16 @@ def parse_sh_version(output):
         image = re.search(regex_image, output).group(1)
         uptime = re.search(regex_uptime, output).group(1)
     except AttributeError:
-        print('Wrong file {}'.format(file))
-        sys.exit()
+        sys.exit('Wrong file {}, ios, image, uptime cant be found'.format(file))
     return (ios, image, uptime)
 
 
 def write_to_csv(csv_file_name, sh_ver_list):
     try:
         with open(csv_file_name, 'w') as f:
-            writer = csv.writer(f)
-            for row in sh_ver_list:
-                writer.writerow(row)
-    except OSError:
-        print('File {} cant be open/write'.format(csv_file_name))
-        sys.exit()
+            map(csv.writer(f).writerow, sh_ver_list)
+    except:
+        sys.exit('File {} cant be open/write'.format(csv_file_name))
 
 for file in sh_version_files:
     try:
@@ -81,7 +77,6 @@ for file in sh_version_files:
             file_string = f.read().strip()
             hostname = re.search(regex_hostname, file).group(1)
             sh_ver_list.append([hostname] + list(parse_sh_version(file_string)))
-    except OSError:
-        print('File {} cant be open/read'.format(file))
-        sys.exit()
+    except:
+        sys.exit('File {} cant be open/read'.format(file))
 write_to_csv('routers_inventory.csv', sh_ver_list)
