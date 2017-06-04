@@ -32,4 +32,4 @@ def parse_output(template, output):
     result = re_table.ParseText(output)
     return [header] + result
 
-print (parse_output(template, output_file))
+print(parse_output(template, output_file))
